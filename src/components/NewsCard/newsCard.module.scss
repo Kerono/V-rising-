@@ -1,0 +1,35 @@
+@keyframes appearance {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  min-width: 200px;
+  border: solid gray;
+  border-radius: 12px;
+  gap: 8px;
+  text-decoration: none;
+  color: black;
+  transition: transform 1150ms;
+  animation: appearance 1150ms;
+
+  //TODO what with img
+  // .card-img {
+  //   object-fit: contain;
+  // }
+}
+.card:hover,
+.card:focus {
+  transform: scale(1.05);
+  transition: transform 350ms;
+}
