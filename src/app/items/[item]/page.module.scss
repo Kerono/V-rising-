@@ -1,0 +1,16 @@
+.wrapper {
+  max-width: 60rem;
+  padding: 12px;
+  margin: 0 auto;
+  display: flex;
+  .table-wrapper {
+    display: grid;
+    border: 1px solid gray;
+    grid-template-columns: 1fr 1fr;
+    background-color: gray;
+    gap: 1px;
+    > * {
+      background-color: white;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import React, { FC, useEffect } from "react";
 import styles from "./header.module.scss";
 import Link from "next/link";
 //TODO ?????? import error?
+// @ts-expect-error @ts-ignore
 import Cookies from "js-cookie";
 import { darkThemeStyles, lightThemeStyles } from "@/variables";
 
@@ -31,6 +32,7 @@ export const Header: FC<Props> = ({ initialTheme }: Props) => {
     Cookies.set("theme", theme, { expires: 5 });
   }, [theme]);
 
+  //TODO try to refactoring this
   return (
     <div className={styles["header-wrapper"]}>
       <Link className={`${styles.link} ${styles["logo-link"]} `} href="/">
@@ -40,14 +42,14 @@ export const Header: FC<Props> = ({ initialTheme }: Props) => {
         <Link className={styles.link} href="/">
           Home
         </Link>
-        <Link className={styles.link} href="/about">
-          About
+        <Link className={styles.link} href="/regions">
+          Regions
         </Link>
         <Link className={styles.link} href="/items">
           Items
         </Link>
-        <Link className={styles.link} href="/skills">
-          Skills
+        <Link className={styles.link} href="/abilities">
+          Abilities
         </Link>
         <Link className={styles.link} href="/weapons">
           Weapons

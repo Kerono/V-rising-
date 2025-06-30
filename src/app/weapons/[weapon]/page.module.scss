@@ -1,0 +1,30 @@
+.wrapper {
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 12px;
+
+  .skills-wrapper {
+    display: grid;
+    // grid-template-columns: minMax(50px, 1fr) minMax(50px, 2fr) repeat(
+    //     4,
+    //     minMax(50px, 1fr)
+    //   );
+    grid-template-columns: 1fr 2fr 1fr;
+    justify-content: center;
+    border: solid gray;
+    > div {
+      border: 1px solid gray;
+    }
+    .column {
+      .title {
+        text-align: center;
+        font-weight: bold;
+        padding: 4px 0;
+        border-bottom: solid gray;
+      }
+      .description {
+        padding: 6px;
+      }
+    }
+  }
+}

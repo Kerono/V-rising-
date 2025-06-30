@@ -1,8 +1,8 @@
 "use client";
 import { NewsCard } from "@/components/NewsCard";
 import styles from "./news.module.scss";
-import { useState, FC, Suspense } from "react";
-import { getNews } from "@/app/actions";
+import { useState, FC, useRef } from "react";
+import { getNews } from "@/server/actions";
 
 type NewsItem = {
   id: string;
@@ -13,19 +13,22 @@ type NewsItem = {
 type Props = {
   initialData: NewsItem[];
   totalCount: number;
-  itemsPerPage: number;
 };
 
-export const News: FC<Props> = ({ initialData, totalCount, itemsPerPage }) => {
+export const News: FC<Props> = ({ initialData, totalCount }) => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [news, setNews] = useState<NewsItem[]>(initialData);
-  console.log(initialData, totalCount, itemsPerPage);
+  const [isLoading, setIsLoading] = useState(false);
+  //TODO types?
+  const totalCountRef = useRef<number>(totalCount);
+
   const handleClick = async () => {
+    setIsLoading(true);
     const nextPage = currentPage + 1;
-    const res = await getNews(nextPage);
-    console.log("resolve", res);
+    const { data } = await getNews(nextPage);
     setCurrentPage(nextPage);
-    setNews([...news, ...res.data]);
+    setNews([...news, ...data]);
+    setIsLoading(false);
   };
 
   return (
@@ -33,14 +36,18 @@ export const News: FC<Props> = ({ initialData, totalCount, itemsPerPage }) => {
       <div className={styles["news-title"]}>Latest news</div>
       <div className={styles["cards-container"]}>
         {news.map(({ id, data, img }) => (
-          <Suspense key={id} fallback={<div>no data hddd</div>}>
-            <NewsCard id={id} img={img} data={data} />
-          </Suspense>
+          <NewsCard key={id} id={id} img={img} data={data} />
         ))}
       </div>
-      <button className={styles.button} onClick={handleClick}>
-        Add more
-      </button>
+      {news.length < totalCountRef.current && (
+        <button
+          disabled={isLoading}
+          className={styles.button}
+          onClick={handleClick}
+        >
+          {isLoading ? "loading..." : "add more"}
+        </button>
+      )}
     </>
   );
 };

@@ -1,10 +1,13 @@
 .wrapper {
-  margin: 24px auto;
+  margin: 0 auto;
   max-width: 60rem;
   padding: 12px;
 
   .cards-container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border: solid gray;
   }
 
   .types-container {

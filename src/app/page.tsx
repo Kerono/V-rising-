@@ -2,12 +2,11 @@ import styles from "./page.module.scss";
 // import { News } from "@/components/News";
 // import { getNews } from "./actions";
 //TODO this test import
-import { Bla } from "@/components/tesxt";
+import { NewsWrapper } from "@/components/NewsWrapper";
 import { Suspense } from "react";
-export default async function Home() {
+export default function Home() {
   // const response = await getNews();
   // const { data, totalCount, itemsPerPage } = response;
-  // console.log(response, "res");
   return (
     <div className={styles.wrapper}>
       <div>
@@ -27,14 +26,24 @@ export default async function Home() {
         A year after its early access release on May 17th, 2023, it received its
         first major update: The Secrets of Gloomrot.
       </div>
-      <Suspense fallback={<div>loading</div>}>
-        <Bla />
+      <div>Premise</div>
+      <div>
+        Awaken after hundreds of years of slumber, weakened and thirsty for
+        blood. Gather a clan of allies online or play the part of the lone wolf
+        as you explore a vast open world of dark horrors and, worse: the deadly
+        sunlight. Raise a mighty castle worthy of your name, and convert the
+        most promising humans into thralls to serve within it. Pillage villages,
+        raid bandit camps and traverse the territories of supernatural beasts.
+        Drink their blood to steal their knowledge and power to become the
+        greatest predator of them all. In a world of conflict, only one vampire
+        shall reign supreme. Dare you challenge the throne of Dracula?
+      </div>
+      {
+        //todo Loading state
+      }
+      <Suspense fallback={<div>Im loading loading now</div>}>
+        <NewsWrapper />
       </Suspense>
-      {/* <News
-        initialData={data}
-        totalCount={totalCount}
-        itemsPerPage={itemsPerPage}
-      /> */}
     </div>
   );
 }
