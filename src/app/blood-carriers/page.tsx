@@ -1,7 +1,8 @@
 import { getBriefDescriptionBosses } from "@/server/actions";
 import styles from "./page.module.scss";
 import Link from "next/link";
-export const Page = async () => {
+
+const Page = async () => {
   const { bossesList, briefDecriptionBosses } =
     await getBriefDescriptionBosses();
   const { description, title, bosesIds } = briefDecriptionBosses;
