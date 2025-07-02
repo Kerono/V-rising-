@@ -1,5 +1,5 @@
 import {
-  newsData,
+  newsList,
   weaponsList,
   regions,
   resourcesList,
@@ -11,7 +11,8 @@ import {
   bossesList,
 } from "@/variables";
 import type {
-  NewsData,
+  NewsList,
+  NewsIds,
   WeaponsList,
   ResourcesGroups,
   Regions,
@@ -28,10 +29,9 @@ import type {
   BossesIds,
 } from "@/variables";
 
-// skillsList: SkillsFullInfo
 type NewsResponse = {
   totalCount: number;
-  data: NewsData[];
+  data: NewsList[];
   itemsPerPage: number;
 };
 
@@ -41,9 +41,20 @@ export async function getNews(page: number = 0): Promise<NewsResponse> {
   const end = (page + 1) * newsPerPage;
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return {
-    totalCount: newsData.length,
-    data: newsData.slice(start, end),
+    totalCount: newsList.length,
+    data: newsList.slice(start, end),
     itemsPerPage: newsPerPage,
+  };
+}
+
+type GetSpecificNews = {
+  news: NewsList;
+};
+export async function getSpecificNews(id: NewsIds): Promise<GetSpecificNews> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const searcNew = newsList.filter((news) => news.id === id)[0];
+  return {
+    news: searcNew,
   };
 }
 

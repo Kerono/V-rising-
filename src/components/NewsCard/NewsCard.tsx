@@ -11,7 +11,7 @@ type Props = {
 
 export const NewsCard: FC<Props> = ({ id, img, data }) => {
   return (
-    <Link href={`/${id}`} className={styles.card} key={id}>
+    <Link href={`./news/${id}`} className={styles.card} key={id}>
       <Image
         src={img}
         width={100}

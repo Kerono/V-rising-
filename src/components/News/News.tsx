@@ -3,21 +3,16 @@ import { NewsCard } from "@/components/NewsCard";
 import styles from "./news.module.scss";
 import { useState, FC, useRef } from "react";
 import { getNews } from "@/server/actions";
-
-type NewsItem = {
-  id: string;
-  data: string;
-  img: string;
-};
+import { NewsList } from "@/variables";
 
 type Props = {
-  initialData: NewsItem[];
+  initialData: NewsList[];
   totalCount: number;
 };
 
 export const News: FC<Props> = ({ initialData, totalCount }) => {
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [news, setNews] = useState<NewsItem[]>(initialData);
+  const [news, setNews] = useState<NewsList[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
   //TODO types?
   const totalCountRef = useRef<number>(totalCount);
@@ -35,8 +30,8 @@ export const News: FC<Props> = ({ initialData, totalCount }) => {
     <>
       <div className={styles["news-title"]}>Latest news</div>
       <div className={styles["cards-container"]}>
-        {news.map(({ id, data, img }) => (
-          <NewsCard key={id} id={id} img={img} data={data} />
+        {news.map(({ id, title, img }) => (
+          <NewsCard key={id} id={id} img={img} data={title} />
         ))}
       </div>
       {news.length < totalCountRef.current && (
