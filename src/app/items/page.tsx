@@ -1,32 +1,27 @@
-import { getAllResources } from "@/server/actions";
 import styles from "./page.module.scss";
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment } from "react";
+import { getAllResources } from "@/server/actions";
+import { Card } from "@/components/Card";
 
 const Page = async () => {
   const data = await getAllResources();
   const { resourcesGroups, resourcesList } = data;
-
+  console.log(data);
   return (
     <div className={styles.wrapper}>
       {resourcesGroups.map(({ title, ids }) => {
         return (
-          <Fragment key={title}>
-            <div>{title}</div>
+          <div key={title}>
+            <div className={styles.title}>{title}</div>
             <div className={styles.content}>
               {ids.map((id) => {
                 console.log(ids, resourcesList, resourcesList);
                 const { name, img } = resourcesList[id];
                 return (
-                  <Link href={`/items/${id}`} key={id}>
-                    <Image width={20} height={20} src={img} alt={name} />
-                    <div>{name}</div>
-                  </Link>
+                  <Card key={id} href={`/items/${id}`} data={name} img={img} />
                 );
               })}
             </div>
-          </Fragment>
+          </div>
         );
       })}
     </div>

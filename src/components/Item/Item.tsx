@@ -11,13 +11,13 @@ type Props = {
 
 export const Item = ({ name, img, isCurrentlySelected, id }: Props) => {
   return (
-    <div>
-      <Image width={20} height={20} src={img} alt={name} />
+    <>
+      <Image width={30} height={30} src={img} alt={name} />
       {isCurrentlySelected ? (
         <div>{name}</div>
       ) : (
         <Link href={`/items/${id}`}>{name}</Link>
       )}
-    </div>
+    </>
   );
 };

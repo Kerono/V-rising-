@@ -1,12 +1,11 @@
 import styles from "./page.module.scss";
-// import { News } from "@/components/News";
-// import { getNews } from "./actions";
-//TODO this test import
 import { NewsWrapper } from "@/components/NewsWrapper";
 import { Suspense } from "react";
-export default function Home() {
-  // const response = await getNews();
-  // const { data, totalCount, itemsPerPage } = response;
+import { Skeleton } from "@/components/Skeleton";
+import { range } from "@/utils/range";
+import { newsPerPage } from "@/variables";
+
+const Home = () => {
   return (
     <div className={styles.wrapper}>
       <div>
@@ -26,7 +25,11 @@ export default function Home() {
         A year after its early access release on May 17th, 2023, it received its
         first major update: The Secrets of Gloomrot.
       </div>
-      <div>Premise</div>
+      <div>
+        The latest Update 1.1: Invaders of Oakveil has been the biggest to date,
+        reworking many of the game`s systems and combat stats. It released on
+        April 28th, 2025.
+      </div>
       <div>
         Awaken after hundreds of years of slumber, weakened and thirsty for
         blood. Gather a clan of allies online or play the part of the lone wolf
@@ -38,12 +41,20 @@ export default function Home() {
         greatest predator of them all. In a world of conflict, only one vampire
         shall reign supreme. Dare you challenge the throne of Dracula?
       </div>
-      {
-        //todo Loading state
-      }
-      <Suspense fallback={<div>Im loading loading now</div>}>
+      <div className={styles.title}>Latest news</div>
+      <Suspense
+        fallback={
+          <div className={styles["cards-container"]}>
+            {range(newsPerPage).map((index) => (
+              <Skeleton key={index} height="195px" />
+            ))}
+          </div>
+        }
+      >
         <NewsWrapper />
       </Suspense>
     </div>
   );
-}
+};
+
+export default Home;

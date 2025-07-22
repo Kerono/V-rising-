@@ -3,7 +3,6 @@ import { FC } from "react";
 import { Header } from "@/components/Header";
 import { cookies } from "next/headers";
 import { darkThemeStyles, lightThemeStyles } from "../variables";
-
 import "./styles.scss";
 
 type Props = {} & PropsWithChildren;

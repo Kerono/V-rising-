@@ -11,25 +11,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: flex-start;
   padding: 12px;
-  min-width: 200px;
   border: solid gray;
   border-radius: 12px;
   gap: 8px;
+  color: var(--text-color);
   text-decoration: none;
-  color: black;
-  transition: transform 1150ms;
   animation: appearance 1150ms;
-
-  //TODO what with img
-  // .card-img {
-  //   object-fit: contain;
-  // }
+  transition: transform 550ms;
 }
 .card:hover,
 .card:focus {
   transform: scale(1.05);
   transition: transform 350ms;
+  text-decoration: none;
 }

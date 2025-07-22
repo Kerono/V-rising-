@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  line-height: 20px;
 }
 html,
 body {
@@ -10,4 +11,18 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--background);
+  color: var(--text-color);
+}
+
+ul {
+  margin: 0;
+}
+
+a {
+  color: #85457e;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

@@ -1,4 +1,11 @@
-// const nextConfig = {
-//   basePath: "/api",
-// };
-// export default nextConfig;
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
+    ],
+  },
+};
+export default nextConfig;

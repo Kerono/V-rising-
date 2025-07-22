@@ -1,24 +1,29 @@
-import { getSpecificItem } from "@/server/actions";
 import styles from "./page.module.scss";
 import { ResourceIds } from "@/variables";
-import Image from "next/image";
 import { Item } from "@/components/Item";
-import { Fragment } from "react";
+import { Fragment, ReactNode, FC } from "react";
+import { getSpecificItem } from "@/server/actions";
+import { AdditionalInfo } from "@/components/AdditionalInfo";
+import { notFound } from "next/navigation";
+
+export type Info = {
+  title: string;
+  value: ReactNode;
+};
 
 type Props = {
   params: Promise<{ item: ResourceIds }>;
 };
 
-const Page = async ({ params }: Props) => {
+const Page: FC<Props> = async ({ params }) => {
   const { item } = await params;
   const data = await getSpecificItem(item);
-
   const { id, enemiesList, resourcesList } = data;
-  //TODO ask is type valid cause user can write url that dont math material and it cause undefined
-  const resource = resourcesList[id];
+  console.log(data);
 
-  //TODO change
-  if (!resource) return <div>smth went wrong </div>;
+  const resource = resourcesList[id];
+  console.log(id, enemiesList, resourcesList);
+  if (!resource) notFound();
 
   const {
     name,
@@ -31,18 +36,35 @@ const Page = async ({ params }: Props) => {
     id: currentMaterialId,
   } = resource;
 
+  const info: Info[] = [
+    {
+      title: "Category",
+      value: <div>{category}</div>,
+    },
+    {
+      title: "Teleportable",
+      value: <div>{isTeleportable ? "Yes" : "No"}</div>,
+    },
+    {
+      title: "Max stack size",
+      value: <div>{stackSize}</div>,
+    },
+  ];
+
   return (
     <div className={styles.wrapper}>
-      <div>
-        <div>{name}</div>
+      <div className={styles.content}>
+        <div className={styles.title}>{name}</div>
         <div>{description}</div>
         {groups.enemiesList.length > 0 && (
           <>
             <div>Drops from </div>
-            {groups.enemiesList.map((enemy) => {
-              const { name } = enemiesList[enemy];
-              return <div key={enemy}>{name}</div>;
-            })}
+            <ul className={styles["enemies-wrapper"]}>
+              {groups.enemiesList.map((enemy) => {
+                const { name } = enemiesList[enemy];
+                return <li key={enemy}>{name}</li>;
+              })}
+            </ul>
           </>
         )}
         <div>Recipes</div>
@@ -51,14 +73,13 @@ const Page = async ({ params }: Props) => {
           <div>Resulting Item</div>
           {groups.resoursesList.map(({ recipe, resultItems }, index) => {
             return (
-              //TODO can it be custom component with multiple places but dufferent passed data
               <Fragment key={index}>
-                <div>
+                <div className={styles["items-wrapper"]}>
                   {recipe.map((res) => {
                     const { img, name, id } = resourcesList[res];
                     const isCurrentlySelected = currentMaterialId === id;
                     return (
-                      <div key={id}>
+                      <div key={id} className={styles.items}>
                         <Item
                           id={id}
                           name={name}
@@ -69,19 +90,20 @@ const Page = async ({ params }: Props) => {
                     );
                   })}
                 </div>
-                <div>
+                <div className={styles["items-wrapper"]}>
                   {resultItems.map((item) => {
                     const { img, name, id } = resourcesList[item];
                     const isCurrentlySelected = currentMaterialId === id;
                     return (
-                      <Fragment key={id}>
+                      <div key={id} className={styles.items}>
                         <Item
+                          key={id}
                           id={id}
                           name={name}
                           img={img}
                           isCurrentlySelected={isCurrentlySelected}
                         />
-                      </Fragment>
+                      </div>
                     );
                   })}
                 </div>
@@ -90,25 +112,7 @@ const Page = async ({ params }: Props) => {
           })}
         </div>
       </div>
-      <div>
-        <Image width={120} height={120} src={img} alt={name} />
-        <div>
-          <div>name</div>
-          <div>{name}</div>
-        </div>
-        <div>
-          <div>Category</div>
-          <div>{category}</div>
-        </div>
-        <div>
-          <div>Teleportable</div>
-          <div>{isTeleportable ? "Yes" : "No"}</div>
-        </div>
-        <div>
-          <div>Max stack size</div>
-          <div>{stackSize}</div>
-        </div>
-      </div>
+      <AdditionalInfo title={name} imgSrc={img} info={info} />
     </div>
   );
 };

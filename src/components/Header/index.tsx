@@ -1,1 +1,2 @@
-export { Header } from "./Header";
+export { Header, linksData } from "./Header";
+export type { LinksData } from "./Header";

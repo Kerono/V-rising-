@@ -1,112 +1,63 @@
-import {
-  newsList,
-  weaponsList,
-  regions,
-  resourcesList,
-  resourcesGroups,
-  enemiesList,
-  skillsBriefDescription,
-  skillsList,
-  briefDecriptionBosses,
-  bossesList,
-} from "@/variables";
+import { baseUrl } from "@/variables";
 import type {
+  BriefDescriptionBosses,
   NewsList,
   NewsIds,
+  Regions,
   WeaponsList,
   ResourcesGroups,
-  Regions,
   ResourceIds,
-  BriefResourcesInfo,
   ResourcesList,
   EnemiesList,
   SkillsBriefDescription,
   SkillsList,
   TypesOfWeaponIds,
   SkillsFullInfoIds,
-  BriefDecriptionBosses,
   BossesList,
   BossesIds,
+  BriefResourcesInfo,
 } from "@/variables";
 
-type NewsResponse = {
-  totalCount: number;
+type GetNews = {
   data: NewsList[];
-  itemsPerPage: number;
+  totalCount: number;
 };
 
-export async function getNews(page: number = 0): Promise<NewsResponse> {
-  const newsPerPage = 3;
-  const start = page * newsPerPage;
-  const end = (page + 1) * newsPerPage;
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return {
-    totalCount: newsList.length,
-    data: newsList.slice(start, end),
-    itemsPerPage: newsPerPage,
-  };
+//TODO correct?
+export async function getNews(page: number): Promise<GetNews> {
+  const response = await fetch(`${baseUrl}/news/${page}`);
+  const data: GetNews = await response.json();
+
+  return data;
+}
+//TODO correct?
+export async function getSpecificNews(endpoint: NewsIds): Promise<NewsList> {
+  console.log(`${baseUrl}/specificNews/${endpoint}`);
+  const response = await fetch(`${baseUrl}/specificNews/${endpoint}`);
+
+  if (!response.ok) {
+    throw response.json();
+  }
+
+  const data = await response.json();
+  return data;
+}
+//TODO correct?
+export async function getRegions(): Promise<Regions> {
+  const response = await fetch(`${baseUrl}/regions`);
+  const data: Regions = await response.json();
+  return data;
 }
 
-type GetSpecificNews = {
-  news: NewsList;
-};
-export async function getSpecificNews(id: NewsIds): Promise<GetSpecificNews> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const searcNew = newsList.filter((news) => news.id === id)[0];
-  return {
-    news: searcNew,
-  };
-}
-
-type GetAllWeapons = {
-  weaponsList: WeaponsList;
-  bossesList: BossesList;
-};
-export function getAllWeapons(): Promise<GetAllWeapons> {
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve({ weaponsList, bossesList });
-    }, 1000)
-  );
-}
-
-type GetSpecificWeapon = {
-  weaponsList: WeaponsList;
-  searchId: TypesOfWeaponIds;
-  bossesList: BossesList;
-};
-
-//TODO what if incorrect url searchWeapon
-export function getSpecificWeapon(
-  id: TypesOfWeaponIds
-): Promise<GetSpecificWeapon> {
-  return new Promise((resolve) =>
-    setTimeout(() => resolve({ searchId: id, weaponsList, bossesList }), 1000)
-  );
-}
-
-export async function getRegions(): Promise<Regions[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(regions), 1000);
-  });
-}
-
-type AllResourcesRes = {
+type AllResources = {
   resourcesGroups: ResourcesGroups[];
   resourcesList: BriefResourcesInfo;
 };
 
-export function getAllResources(): Promise<AllResourcesRes> {
-  return new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          resourcesGroups,
-          resourcesList,
-        }),
-      1000
-    );
-  });
+export async function getAllResources(): Promise<AllResources> {
+  const response = await fetch(`${baseUrl}/resources`);
+  const data: AllResources = await response.json();
+  return data;
 }
 
 type SpecificItem = {
@@ -115,75 +66,92 @@ type SpecificItem = {
   resourcesList: ResourcesList;
 };
 
-//TODO what if incorrect url searchName
-export function getSpecificItem(id: ResourceIds): Promise<SpecificItem> {
-  return new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          id,
-          enemiesList,
-          resourcesList,
-        }),
-      1000
-    );
-  });
+export async function getSpecificItem(endpoint: string): Promise<SpecificItem> {
+  const response = await fetch(`${baseUrl}/resource/${endpoint}`);
+  const data: SpecificItem = await response.json();
+  return data;
 }
 
-type GetSkillsBriefDescription = {
+type SkillsData = {
   skillsBriefDescription: SkillsBriefDescription;
   skillsList: SkillsList;
 };
 
-export function getSkillsBriefDescription(): Promise<GetSkillsBriefDescription> {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ skillsBriefDescription, skillsList }), 1000);
-  });
+export async function getAllSkills(): Promise<SkillsData> {
+  const response = await fetch(`${baseUrl}/skills-list`);
+  const data: SkillsData = await response.json();
+  const { skillsBriefDescription, skillsList } = data;
+  return { skillsBriefDescription, skillsList };
 }
 
-type GetSpecificSkill = {
+type SpecificSkill = {
   skillsList: SkillsList;
   searchId: SkillsFullInfoIds;
   bossesList: BossesList;
 };
 
-export function getSpecificSkill(
-  id: SkillsFullInfoIds
-): Promise<GetSpecificSkill> {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ skillsList, searchId: id, bossesList }), 1000);
-  });
+export async function getSpecificSkill(
+  endpoint: SkillsFullInfoIds
+): Promise<SpecificSkill> {
+  const response = await fetch(`${baseUrl}/skills-list/${endpoint}`);
+  const data: SpecificSkill = await response.json();
+  const { skillsList, searchId, bossesList } = data;
+  return { skillsList, searchId, bossesList };
 }
 
-type GetBriefDescriptionBosses = {
-  briefDecriptionBosses: BriefDecriptionBosses;
+type AllWeapons = {
+  weaponsList: WeaponsList;
   bossesList: BossesList;
 };
-export function getBriefDescriptionBosses(): Promise<GetBriefDescriptionBosses> {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ briefDecriptionBosses, bossesList }), 1000);
-  });
+
+export async function getAllWeapons(): Promise<AllWeapons> {
+  const response = await fetch(`${baseUrl}/weapons`);
+  const data: AllWeapons = await response.json();
+  const { weaponsList, bossesList } = data;
+  return { weaponsList, bossesList };
 }
 
-export type GetSprecificBoss = {
+type SpecificWeapon = {
+  weaponsList: WeaponsList;
+  searchId: TypesOfWeaponIds;
+  bossesList: BossesList;
+};
+
+//TODO what if incorrect url searchWeapon
+export async function getSpecificWeapon(
+  id: TypesOfWeaponIds
+): Promise<SpecificWeapon> {
+  const response = await fetch(`${baseUrl}/weapons/${id}`);
+  const data: SpecificWeapon = await response.json();
+  const { searchId, weaponsList, bossesList } = data;
+  return new Promise((resolve) =>
+    setTimeout(() => resolve({ searchId, weaponsList, bossesList }), 1000)
+  );
+}
+
+type BossesData = {
+  briefDecriptionBosses: BriefDescriptionBosses;
+  bossesList: BossesList;
+};
+
+export async function getBriefDescriptionBosses() {
+  const response = await fetch(`${baseUrl}/bosses`);
+  const data: BossesData = await response.json();
+  return data;
+}
+
+type SprecificBossInfo = {
   searchId: BossesIds;
   bossesList: BossesList;
   skillsList: SkillsList;
   resourcesList: ResourcesList;
   weaponsList: WeaponsList;
 };
-export function getSpecificBoss(id: BossesIds): Promise<GetSprecificBoss> {
-  return new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          searchId: id,
-          bossesList,
-          skillsList,
-          resourcesList,
-          weaponsList,
-        }),
-      1000
-    );
-  });
+
+export async function getSpecificBoss(
+  endpoint: BossesIds
+): Promise<SprecificBossInfo> {
+  const response = await fetch(`${baseUrl}/bosses/${endpoint}`);
+  const data: SprecificBossInfo = await response.json();
+  return data;
 }

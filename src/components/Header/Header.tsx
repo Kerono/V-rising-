@@ -2,15 +2,49 @@
 import { Moon, Sun } from "react-feather";
 import React, { FC, useEffect } from "react";
 import styles from "./header.module.scss";
-import Link from "next/link";
 //TODO ?????? import error?
 // @ts-expect-error @ts-ignore
 import Cookies from "js-cookie";
 import { darkThemeStyles, lightThemeStyles } from "@/variables";
+import { HeaderLink } from "../HeaderLink";
+import Link from "next/link";
+import { MobileHeader } from "../MobileHeader";
 
 type Props = {
   initialTheme: string;
 };
+
+export type LinksData = {
+  href: string;
+  content: string;
+};
+
+export const linksData: LinksData[] = [
+  {
+    content: "Home",
+    href: "/",
+  },
+  {
+    content: "Regions",
+    href: "/regions",
+  },
+  {
+    content: "Items",
+    href: "/items",
+  },
+  {
+    content: "Abilities",
+    href: "/abilities",
+  },
+  {
+    content: "Weapons",
+    href: "/weapons",
+  },
+  {
+    content: "Blood carriers V",
+    href: "/blood-carriers",
+  },
+];
 
 export const Header: FC<Props> = ({ initialTheme }: Props) => {
   const [theme, setTheme] = React.useState<string>(initialTheme);
@@ -22,7 +56,7 @@ export const Header: FC<Props> = ({ initialTheme }: Props) => {
     root.setAttribute("data-color-theme", nextTheme);
     const nextThemeStyles =
       nextTheme === "light" ? lightThemeStyles : darkThemeStyles;
-
+    console.log(nextThemeStyles);
     for (const [key, value] of Object.entries(nextThemeStyles)) {
       root.style.setProperty(key, value);
     }
@@ -32,35 +66,28 @@ export const Header: FC<Props> = ({ initialTheme }: Props) => {
     Cookies.set("theme", theme, { expires: 5 });
   }, [theme]);
 
-  //TODO try to refactoring this
   return (
     <div className={styles["header-wrapper"]}>
-      <Link className={`${styles.link} ${styles["logo-link"]} `} href="/">
-        V Rising
-      </Link>
-      <div className={styles["links-wrapper"]}>
-        <Link className={styles.link} href="/">
-          Home
+      <div className={styles["laptop-and-higher"]}>
+        <Link className={styles["logo-link"]} href="/">
+          V Rising
         </Link>
-        <Link className={styles.link} href="/regions">
-          Regions
-        </Link>
-        <Link className={styles.link} href="/items">
-          Items
-        </Link>
-        <Link className={styles.link} href="/abilities">
-          Abilities
-        </Link>
-        <Link className={styles.link} href="/weapons">
-          Weapons
-        </Link>
-        <Link className={styles.link} href="/blood-carriers">
-          Blood carriers V
-        </Link>
+        <div className={styles["links-wrapper"]}>
+          {linksData.map(({ content, href }, index) => (
+            <HeaderLink key={index} content={content} href={href} />
+          ))}
+        </div>
+        <button className={styles["icon-button"]} onClick={handleTheme}>
+          {theme === "light" ? (
+            <Sun size={"1.4rem"} />
+          ) : (
+            <Moon size={"1.4rem"} />
+          )}
+        </button>
       </div>
-      <button className={styles["icon-button"]} onClick={handleTheme}>
-        {theme === "light" ? <Sun size={"1.4rem"} /> : <Moon size={"1.4rem"} />}
-      </button>
+      <div className={styles.mobile}>
+        <MobileHeader />
+      </div>
     </div>
   );
 };

@@ -1,32 +1,42 @@
+$base-gap: 8px;
+
 .wrapper {
   margin: 0 auto;
-  max-width: 60rem;
+  max-width: 40rem;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: $base-gap;
 
   .cards-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: $base-gap;
     border: solid gray;
+    padding: 6px;
+    width: fit-content;
+    background-color: var(--background);
   }
 
-  .types-container {
+  .card {
+    display: flex;
+    gap: 4px;
+  }
+
+  .conditions-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 12px;
-    margin-top: 12px;
-    border: solid gray;
-    border-radius: 14px;
+    gap: $base-gap;
 
     .title {
       font-weight: bold;
-      text-align: center;
     }
 
     .weapon-description {
       display: flex;
       justify-content: space-between;
+      gap: 8px;
     }
   }
 }

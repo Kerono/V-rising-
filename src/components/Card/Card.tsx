@@ -1,23 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
-import styles from "./newsCard.module.scss";
+import styles from "./card.module.scss";
 import { FC } from "react";
 
 type Props = {
-  id: string;
+  href: string;
   img: string;
   data: string;
 };
 
-export const NewsCard: FC<Props> = ({ id, img, data }) => {
+export const Card: FC<Props> = ({ href, img, data }) => {
   return (
-    <Link href={`./news/${id}`} className={styles.card} key={id}>
+    <Link href={href} className={styles.card}>
       <Image
         src={img}
-        width={100}
-        height={100}
+        width={120}
+        priority
+        height={120}
         className={styles["card-img"]}
-        alt="Picture of the author"
+        alt={data}
       />
       <div>{data}</div>
     </Link>

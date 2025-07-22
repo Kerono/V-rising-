@@ -1,27 +1,30 @@
 import { FC, Fragment } from "react";
-import { getSpecificWeapon } from "@/server/actions";
 import styles from "./page.module.scss";
-import { TypesOfWeaponIds } from "@/variables";
+import type { TypesOfWeaponIds } from "@/variables";
 import Image from "next/image";
 import Link from "next/link";
+import { getSpecificWeapon } from "@/server/actions";
+import { notFound } from "next/navigation";
 
-//TODO asked about type
 type Props = {
   params: Promise<{
-    weapon: string;
+    weapon: TypesOfWeaponIds;
   }>;
 };
 
+const titles = ["Skill", "Description", "Tier Requirement"];
+
 const Page: FC<Props> = async ({ params }) => {
   const { weapon } = await params;
-  const { searchId, weaponsList, bossesList } = await getSpecificWeapon(
-    weapon as TypesOfWeaponIds
-  );
+  const { searchId, weaponsList, bossesList } = await getSpecificWeapon(weapon);
   const currentWeapon = weaponsList[searchId];
-  if (!currentWeapon) return <div>something went wrong</div>;
+
+  if (!currentWeapon) notFound();
+
   const { title, bonuses, skills, additionalCondition } = currentWeapon;
   //TODO is correct typing cause can be undefined
   const dropFrom = additionalCondition && bossesList[additionalCondition];
+
   return (
     <div className={styles.wrapper}>
       <div>{title}</div>
@@ -32,10 +35,12 @@ const Page: FC<Props> = async ({ params }) => {
           <Link href={`/blood-carriers/${dropFrom.id}`}>{dropFrom.title}</Link>
         </div>
       )}
-      <div className={styles["skills-wrapper"]}>
-        <div>Skill</div>
-        <div>Description</div>
-        <div>Tier Requirement</div>
+      <div className={styles["skills-table"]}>
+        {titles.map((title, index) => (
+          <div className={styles["table-title"]} key={index}>
+            {title}
+          </div>
+        ))}
         {skills.map(({ id, skill, description, tierRequirement }) => {
           return (
             <Fragment key={id}>
@@ -44,8 +49,8 @@ const Page: FC<Props> = async ({ params }) => {
                 <Image
                   src={skill.img}
                   alt={skill.info}
-                  width={20}
-                  height={20}
+                  width={40}
+                  height={40}
                 />
               </div>
               <div>{description}</div>
@@ -54,8 +59,8 @@ const Page: FC<Props> = async ({ params }) => {
                 <Image
                   src={tierRequirement.img}
                   alt={tierRequirement.info}
-                  width={20}
-                  height={20}
+                  width={40}
+                  height={40}
                 />
               </div>
             </Fragment>

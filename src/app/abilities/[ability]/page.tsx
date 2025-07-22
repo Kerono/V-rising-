@@ -1,19 +1,23 @@
+import styles from "./page.module.scss";
 import { getSpecificSkill } from "@/server/actions";
 import type { SkillsFullInfoIds } from "@/variables";
-import Image from "next/image";
-import styles from "./page.module.scss";
+import type { Info } from "@/app/items/[item]/page";
+import { AdditionalInfo } from "@/components/AdditionalInfo";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { FC } from "react";
 
 type Props = {
   params: Promise<{ ability: SkillsFullInfoIds }>;
 };
-const Page = async ({ params }: Props) => {
+
+const Page: FC<Props> = async ({ params }) => {
   const { ability } = await params;
   const { searchId, skillsList, bossesList } = await getSpecificSkill(ability);
 
   const currentSkill = skillsList[searchId];
-  //TODO доделать
-  if (!currentSkill) return <div>smth went wrong</div>;
+
+  if (!currentSkill) notFound();
 
   const { title, img, description, notes, unlock, type, castTime } =
     currentSkill;
@@ -22,11 +26,33 @@ const Page = async ({ params }: Props) => {
     bossName: bossesList[unlock].title,
     id: bossesList[unlock].id,
   };
+
+  const info: Info[] = [
+    {
+      title: "Unlock Requirement",
+      value: requirements ? (
+        <Link href={`/blood-carriers/${requirements.id}`}>
+          {requirements.bossName}
+        </Link>
+      ) : (
+        <div>Default power</div>
+      ),
+    },
+    {
+      title: "Type",
+      value: <div>{type}</div>,
+    },
+    {
+      title: "Cast time",
+      value: <div>{castTime}</div>,
+    },
+  ];
+
   console.log(requirements);
   return (
     <div className={styles.wrapper}>
-      <div>
-        <div>{title}</div>
+      <div className={styles.content}>
+        <div className={styles.title}>{title}</div>
         <div>Overview</div>
         <div>{description}</div>
         {notes && (
@@ -40,30 +66,7 @@ const Page = async ({ params }: Props) => {
           </>
         )}
       </div>
-      <div>
-        <Image src={img} alt={title} width={120} height={120} />
-        <div>
-          <div>Unlock Requirement</div>
-          {requirements ? (
-            <Link href={`/blood-carriers/${requirements.id}`}>
-              {requirements.bossName}
-            </Link>
-          ) : (
-            <div>Default power</div>
-          )}
-          <div>{unlock}</div>
-        </div>
-        <div>
-          <div>Type</div>
-          <div>{type}</div>
-        </div>
-        {castTime && (
-          <div>
-            <div>Cast time</div>
-            <div>{castTime}</div>
-          </div>
-        )}
-      </div>
+      <AdditionalInfo title={title} imgSrc={img} info={info} />
     </div>
   );
 };

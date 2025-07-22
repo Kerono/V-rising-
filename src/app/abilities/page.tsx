@@ -1,16 +1,15 @@
-import { getSkillsBriefDescription } from "@/server/actions";
 import styles from "./page.module.scss";
-import Image from "next/image";
-import Link from "next/link";
+import { getAllSkills } from "@/server/actions";
+import { Card } from "@/components/Card";
 
 const Page = async () => {
-  const { skillsBriefDescription, skillsList } =
-    await getSkillsBriefDescription();
-  console.log(skillsBriefDescription, skillsList);
+  const { skillsBriefDescription, skillsList } = await getAllSkills();
+
   const {
     staticInfo: { abilitiesInfo, weaponsSkills },
     abilities,
   } = skillsBriefDescription;
+
   return (
     <div className={styles.wrapper}>
       <div>{abilitiesInfo.title}</div>
@@ -18,26 +17,20 @@ const Page = async () => {
       <div>{weaponsSkills.title}</div>
       <div>{weaponsSkills.description}</div>
       <div>{abilities["blood-powers"].title}</div>
-      <div>
+      <div className={styles["abilities-wrapper"]}>
         {abilities["blood-powers"].vampirePowerIds.map((power) => {
           const { id, title, img } = skillsList[power];
           return (
-            <div key={id}>
-              <Link href={`/abilities/${id}`}>{title}</Link>
-              <Image src={img} width={20} height={20} alt={id} />
-            </div>
+            <Card key={id} href={`/abilities/${id}`} img={img} data={title} />
           );
         })}
       </div>
       <div>{abilities["shapeshifting-powers"].title}</div>
-      <div>
+      <div className={styles["abilities-wrapper"]}>
         {abilities["shapeshifting-powers"].vampirePowerIds.map((power) => {
           const { id, title, img } = skillsList[power];
           return (
-            <div key={id}>
-              <Link href={`/abilities/${id}`}>{title}</Link>
-              <Image src={img} width={20} height={20} alt={id} />
-            </div>
+            <Card key={id} href={`/abilities/${id}`} img={img} data={title} />
           );
         })}
       </div>
