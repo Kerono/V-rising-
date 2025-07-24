@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/Skeleton";
 import styles from "./page.module.scss";
-//TODO доделать
+
 export default function Loading() {
   return (
     <div className={`${styles.wrapper} ${styles["loading-wrapper"]}`}>

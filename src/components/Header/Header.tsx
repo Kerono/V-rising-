@@ -2,8 +2,6 @@
 import { Moon, Sun } from "react-feather";
 import React, { FC, useEffect } from "react";
 import styles from "./header.module.scss";
-//TODO ?????? import error?
-// @ts-expect-error @ts-ignore
 import Cookies from "js-cookie";
 import { darkThemeStyles, lightThemeStyles } from "@/variables";
 import { HeaderLink } from "../HeaderLink";
@@ -56,7 +54,6 @@ export const Header: FC<Props> = ({ initialTheme }: Props) => {
     root.setAttribute("data-color-theme", nextTheme);
     const nextThemeStyles =
       nextTheme === "light" ? lightThemeStyles : darkThemeStyles;
-    console.log(nextThemeStyles);
     for (const [key, value] of Object.entries(nextThemeStyles)) {
       root.style.setProperty(key, value);
     }

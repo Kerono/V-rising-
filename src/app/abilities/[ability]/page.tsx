@@ -48,7 +48,6 @@ const Page: FC<Props> = async ({ params }) => {
     },
   ];
 
-  console.log(requirements);
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>

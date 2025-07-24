@@ -4,7 +4,6 @@ import Image from "next/image";
 
 const Page = async () => {
   const { img, data } = await getRegions();
-  console.log(data);
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>

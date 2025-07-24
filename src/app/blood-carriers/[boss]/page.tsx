@@ -18,12 +18,10 @@ const Page: FC<Props> = async ({ params }) => {
     await getSpecificBoss(boss);
   const currentBoss = bossesList[searchId];
 
-  //TODO доделать
   if (!currentBoss) notFound();
 
   const { title, description, location, rewards, img, level, region, attacks } =
     currentBoss;
-  console.log(attacks);
   const info: Info[] = [
     {
       title: "Level",
@@ -35,7 +33,6 @@ const Page: FC<Props> = async ({ params }) => {
     },
   ];
 
-  //TODO fine?
   if (rewards.skills) {
     info.push({
       title: "Unlocked Vampire Powers",
@@ -54,7 +51,6 @@ const Page: FC<Props> = async ({ params }) => {
       ),
     });
   }
-  console.log(info);
 
   return (
     <div className={styles.wrapper}>

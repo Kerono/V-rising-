@@ -18,11 +18,10 @@ type Props = {
 const Page: FC<Props> = async ({ params }) => {
   const { item } = await params;
   const data = await getSpecificItem(item);
-  const { id, enemiesList, resourcesList } = data;
-  console.log(data);
+  const { id, enemiesList, resourcesList, recipesList } = data;
 
   const resource = resourcesList[id];
-  console.log(id, enemiesList, resourcesList);
+
   if (!resource) notFound();
 
   const {
@@ -71,7 +70,7 @@ const Page: FC<Props> = async ({ params }) => {
         <div className={styles["table-wrapper"]}>
           <div>Recipe</div>
           <div>Resulting Item</div>
-          {groups.resoursesList.map(({ recipe, resultItems }, index) => {
+          {recipesList.map(({ recipe, resultItems }, index) => {
             return (
               <Fragment key={index}>
                 <div className={styles["items-wrapper"]}>

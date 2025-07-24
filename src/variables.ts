@@ -3,16 +3,19 @@ import { CSSProperties } from "react";
 type CssVariables = {
   "--text-color": string;
   "--background": string;
+  "--header-links-hover": string;
 } & CSSProperties;
 
 export const darkThemeStyles: CssVariables = {
   ["--text-color"]: "white",
   ["--background"]: "#1d1c1c",
+  ["--header-links-hover"]: "#d93e3e",
 };
 
 export const lightThemeStyles: CssVariables = {
   ["--text-color"]: "black",
   ["--background"]: "white",
+  ["--header-links-hover"]: "darkgoldenrod",
 };
 
 export const baseUrl = "http://localhost:4000";
@@ -140,8 +143,6 @@ export type ResourcesGroups = {
   ids: ResourceIds[];
 };
 
-//TODO TS stop it extends item with change id not work
-
 type EnemiesIds =
   | "treant"
   | "flesh-golem"
@@ -165,10 +166,31 @@ export type EnemiesList = {
 
 type Caregory = "Material" | "Alchemy" | "Fish" | "Tailoring";
 
-type ResourceList = {
+export type RecipesList = {
   recipe: ResourceIds[];
   resultItems: ResourceIds[];
 };
+
+type ResourcesRecipesIds =
+  | "simple-wood-recipe"
+  | "hallow-wood-recipe"
+  | "simple-stone-recipe"
+  | "stone-dust-recipe"
+  | "copper-ore-recipe"
+  | "iron-ore-recipe"
+  | "plank-recipe"
+  | "sawdust-recipe"
+  | "oil-recipe"
+  | "fish-bone-recipe"
+  | "fish-recipe"
+  | "whetstone-recipe"
+  | "copper-ingot-recipe"
+  | "iron-ingot-recipe"
+  | "reinforced-plank-recipe"
+  | "bone-recipe"
+  | "grave-dust-recipe"
+  | "rugged-hide-recipe"
+  | "leather-recipe";
 
 export type ResourcesFullInfo = Item & {
   category: Caregory;
@@ -176,7 +198,7 @@ export type ResourcesFullInfo = Item & {
   stackSize: number;
   groups: {
     enemiesList: EnemiesIds[];
-    resoursesList: ResourceList[];
+    resoursesList: ResourcesRecipesIds;
   };
 };
 

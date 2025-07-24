@@ -22,7 +22,7 @@ const Page: FC<Props> = async ({ params }) => {
   if (!currentWeapon) notFound();
 
   const { title, bonuses, skills, additionalCondition } = currentWeapon;
-  //TODO is correct typing cause can be undefined
+
   const dropFrom = additionalCondition && bossesList[additionalCondition];
 
   return (

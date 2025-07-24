@@ -26,8 +26,8 @@ export const News: FC<Props> = ({ initialData, totalCount }) => {
     setNews([...news, ...data]);
     setIsLoading(false);
   };
-  //TODO how 2 skeletons
-  const skeletonForNews =
+
+  const skeletonsForNews =
     totalCount - news.length < newsPerPage
       ? totalCount % newsPerPage
       : newsPerPage;
@@ -39,7 +39,7 @@ export const News: FC<Props> = ({ initialData, totalCount }) => {
           <Card key={id} href={`./news/${id}`} img={img} data={title} />
         ))}
         {isLoading &&
-          range(skeletonForNews).map((index) => (
+          range(skeletonsForNews).map((index) => (
             <Skeleton key={index} height="195px" />
           ))}
       </div>

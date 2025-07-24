@@ -7,7 +7,7 @@ import { getAllWeapons } from "@/server/actions";
 const Page = async () => {
   const { weaponsList, bossesList } = await getAllWeapons();
   const weaponsKeys = Object.keys(weaponsList);
-  //TODO correct?
+
   const additionalConditions = weaponsKeys.filter(
     (d) => weaponsList[d as TypesOfWeaponIds].additionalCondition
   );
@@ -32,12 +32,11 @@ const Page = async () => {
         {additionalConditions.map((key) => {
           const { title, additionalCondition, id } =
             weaponsList[key as TypesOfWeaponIds];
-          //TODO how to do it correct for typing cause additionalCondition can be undefined bot not in this arr
+
           const currentBoss = additionalCondition && {
             id: bossesList[additionalCondition].id,
             title: bossesList[additionalCondition].title,
           };
-          console.log(currentBoss);
           return (
             <div key={id} className={styles["weapon-description"]}>
               {currentBoss?.id && (

@@ -1,5 +1,6 @@
 import { baseUrl } from "@/variables";
 import type {
+  RecipesList,
   BriefDescriptionBosses,
   NewsList,
   NewsIds,
@@ -23,16 +24,14 @@ type GetNews = {
   totalCount: number;
 };
 
-//TODO correct?
 export async function getNews(page: number): Promise<GetNews> {
   const response = await fetch(`${baseUrl}/news/${page}`);
   const data: GetNews = await response.json();
 
   return data;
 }
-//TODO correct?
+
 export async function getSpecificNews(endpoint: NewsIds): Promise<NewsList> {
-  console.log(`${baseUrl}/specificNews/${endpoint}`);
   const response = await fetch(`${baseUrl}/specificNews/${endpoint}`);
 
   if (!response.ok) {
@@ -42,7 +41,7 @@ export async function getSpecificNews(endpoint: NewsIds): Promise<NewsList> {
   const data = await response.json();
   return data;
 }
-//TODO correct?
+
 export async function getRegions(): Promise<Regions> {
   const response = await fetch(`${baseUrl}/regions`);
   const data: Regions = await response.json();
@@ -64,6 +63,7 @@ type SpecificItem = {
   id: ResourceIds;
   enemiesList: EnemiesList;
   resourcesList: ResourcesList;
+  recipesList: RecipesList[];
 };
 
 export async function getSpecificItem(endpoint: string): Promise<SpecificItem> {
@@ -117,7 +117,6 @@ type SpecificWeapon = {
   bossesList: BossesList;
 };
 
-//TODO what if incorrect url searchWeapon
 export async function getSpecificWeapon(
   id: TypesOfWeaponIds
 ): Promise<SpecificWeapon> {

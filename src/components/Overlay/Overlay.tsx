@@ -4,7 +4,6 @@ import styles from "./overlay.module.scss";
 import { linksData } from "@/components/Header";
 import { X } from "react-feather";
 
-//TODO dispatch function or just nameless function ?
 type Props = {
   setIsOverlayOpen: Dispatch<SetStateAction<boolean>>;
 };

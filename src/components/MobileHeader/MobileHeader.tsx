@@ -7,7 +7,6 @@ import { Overlay } from "@/components/Overlay";
 
 const MobileHeader = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false);
-  console.log(isOverlayOpen);
 
   function handleClick() {
     setIsOverlayOpen(!isOverlayOpen);

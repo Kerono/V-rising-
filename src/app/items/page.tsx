@@ -5,7 +5,7 @@ import { Card } from "@/components/Card";
 const Page = async () => {
   const data = await getAllResources();
   const { resourcesGroups, resourcesList } = data;
-  console.log(data);
+
   return (
     <div className={styles.wrapper}>
       {resourcesGroups.map(({ title, ids }) => {
@@ -14,7 +14,6 @@ const Page = async () => {
             <div className={styles.title}>{title}</div>
             <div className={styles.content}>
               {ids.map((id) => {
-                console.log(ids, resourcesList, resourcesList);
                 const { name, img } = resourcesList[id];
                 return (
                   <Card key={id} href={`/items/${id}`} data={name} img={img} />
